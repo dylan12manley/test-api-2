@@ -25,6 +25,11 @@ app.get('/posts', async (req, res) => {
   res.send(results);
 })
 
+app.get('/users', async (req, res) => {
+  const [results] = await db.execute('SELECT * from users')
+  res.send(results);
+})
+
 app.patch('/posts/:id', async (req, res) => {
   const {id} = req.params;
   const {title} = req.body;
