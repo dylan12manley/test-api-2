@@ -25,11 +25,6 @@ app.get('/posts', async (req, res) => {
   res.send(results);
 })
 
-app.get('/users', async (req, res) => {
-  const [results] = await db.execute('SELECT * from users')
-  res.send(results);
-})
-
 app.patch('/posts/:id', async (req, res) => {
   const {id} = req.params;
   const {title} = req.body;
@@ -49,6 +44,13 @@ app.delete('/posts/:id', async (req, res) => {
   const {id} = req.params;
   const [data] = await db.execute("DELETE FROM posts where id =?", [id]);
   res.send({ sucess: data.affectedRows > 0 });
+})
+
+
+// USERS
+app.get('/users', async (req, res) => {
+  const [results] = await db.execute('SELECT * from users')
+  res.send(results);
 })
 
 app.listen(PORT, () => {
