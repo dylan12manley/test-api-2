@@ -7,15 +7,23 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json())
 
 app.post('/posts', async (req, res) => {
-  const {id, title, content, category = null} = req.body;
+  const {title, content, category = null} = req.body;
 
-  if (!id || !title || !content) {
+  if (!title && !content) {
     return res.status(400).send('please send title and content');
   }
 
+  if (!title) {
+    return res.status(400).send('please send title for post');
+  }
+
+  if (!content) {
+    return res.status(400).send('please send content for post');
+  }
+
   const [result] = await db.execute(
-    "INSERT INTO posts (id, title, content, category) VALUES (?,?,?,?)",
-    [id, title, content, category]
+    "INSERT INTO posts (title, content, category) VALUES (?,?,?)",
+    [title, content, category]
   );
   res.send({ sucess: result.affectedRows > 0 });
 });
