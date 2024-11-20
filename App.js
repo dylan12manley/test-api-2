@@ -50,7 +50,7 @@ app.patch('/posts/:id', async (req, res) => {
 
 app.delete('/posts/:id', async (req, res) => {
   const {id} = req.params;
-  const [data] = await db.execute("DELETE FROM posts where id =?", [id]);
+  const [data] = await db.execute("DELETE FROM posts where postID =?", [id]);
   res.send({ sucess: data.affectedRows > 0 });
 })
 
