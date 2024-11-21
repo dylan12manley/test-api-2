@@ -61,6 +61,12 @@ app.get('/users', async (req, res) => {
   res.send(results);
 })
 
+// CODING
+app.get('/coding', async (req, res) => {
+  const [results] = await db.execute('SELECT * from users')
+  res.send(results);
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
