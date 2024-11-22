@@ -70,3 +70,27 @@ app.get('/coding', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyB3MhrRLM_GFBImBDsk2QDJ5PLjIztHvg4",
+  authDomain: "portfo-api.firebaseapp.com",
+  projectId: "portfo-api",
+  storageBucket: "portfo-api.firebasestorage.app",
+  messagingSenderId: "827980039273",
+  appId: "1:827980039273:web:7b01bb9726ec0263d08ef8",
+  measurementId: "G-4QB9M2QHP4"
+};
+
+// Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
+
+getAnalytics(initializeApp(firebaseConfig));
