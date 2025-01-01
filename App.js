@@ -102,3 +102,9 @@ app.post('/homePage', async (req, res) => {
   ]);
   res.send({ sucess: result.affectedRows > 0 });
 });
+
+app.delete('/homePage/:id', async (req, res) => {
+  const { id } = req.params;
+  const [data] = await db.execute('DELETE FROM homePage where id =?', [id]);
+  res.send({ sucess: data.affectedRows > 0 });
+});
