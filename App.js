@@ -81,7 +81,7 @@ app.get('/homePage', async (req, res) => {
 });
 
 app.post('/homePage', async (req, res) => {
-  const { siteName, homePageH2, homePageH3 = null } = req.body;
+  const { siteName, homePageH2 = null, homePageH3 = null, mainImg = null } = req.body;
 
   if (!siteName) {
     return res.status(400).send('siteName homePage');
@@ -95,10 +95,11 @@ app.post('/homePage', async (req, res) => {
     return res.status(400).send('H3 homePageH3 for homePage');
   }
 
-  const [result] = await db.execute('INSERT INTO homePage (siteName, homePageH2, homePageH3) VALUES (?,?,?)', [
+  const [result] = await db.execute('INSERT INTO homePage (siteName, homePageH2, homePageH3, mainImg) VALUES (?,?,?,?)', [
     siteName,
     homePageH2,
     homePageH3,
+    mainImg,
   ]);
   res.send({ sucess: result.affectedRows > 0 });
 });
