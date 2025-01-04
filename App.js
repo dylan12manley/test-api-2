@@ -87,13 +87,13 @@ app.post('/homePage', async (req, res) => {
     return res.status(400).send('siteName homePage');
   }
 
-  if (!homePageH2) {
-    return res.status(400).send('H2 homePageH2 for homePage');
-  }
+  // if (!homePageH2) {
+  //   return res.status(400).send('H2 homePageH2 for homePage');
+  // }
 
-  if (!homePageH3) {
-    return res.status(400).send('H3 homePageH3 for homePage');
-  }
+  // if (!homePageH3) {
+  //   return res.status(400).send('H3 homePageH3 for homePage');
+  // }
 
   const [result] = await db.execute('INSERT INTO homePage (siteName, homePageH2, homePageH3, mainImg) VALUES (?,?,?,?)', [
     siteName,
