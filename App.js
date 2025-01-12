@@ -101,3 +101,29 @@ app.delete('/homePage/:id', async (req, res) => {
   const [data] = await db.execute('DELETE FROM homePage where id =?', [id]);
   res.send({ sucess: data.affectedRows > 0 });
 });
+
+app.post('/general', async (req, res) => {
+  const { mainFont, secondaryFont } = req.body;
+
+  if (!mainFont) {
+    return res.status(400).send('main font is required for the general table');
+  }
+
+  if (!secondaryFont) {
+    return res.status(400).send('secondary font is required for the general table');
+  }
+
+  const [result] = await db.execute('INSERT INTO general (mainFont, secondaryFont) VALUES (?,?)', [mainFont, secondaryFont]);
+  res.send({ sucess: result.affectedRows > 0 });
+});
+
+app.get('/general', async (req, res) => {
+  const [results] = await db.execute('SELECT * from general');
+  res.send(results);
+});
+
+app.delete('/general/:id', async (req, res) => {
+  const { id } = req.params;
+  const [data] = await db.execute('DELETE FROM general where id =?', [id]);
+  res.send({ sucess: data.affectedRows > 0 });
+});
