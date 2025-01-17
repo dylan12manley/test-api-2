@@ -256,7 +256,7 @@ app.post('/categoryArticles', async (req, res) => {
   } = req.body;
 
   const [result] = await db.execute(
-    'INSERT INTO categoryArticles (articleTitle, articleStyle, articleImgUrlOne, articleImgUrlTwo, articleImgUrlThree, articleTextOne, articleTextTwo, articleTextThree,) VALUES (?,?,?,?,?,?,?,?)',
+    'INSERT INTO categoryArticles (articleTitle, articleStyle, articleImgUrlOne, articleImgUrlTwo, articleImgUrlThree, articleTextOne, articleTextTwo, articleTextThree) VALUES (?,?,?,?,?,?,?,?)',
     [
       articleTitle,
       articleStyle,
