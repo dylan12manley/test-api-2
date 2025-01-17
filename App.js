@@ -271,30 +271,18 @@ app.post('/categoryArticles', async (req, res) => {
   res.send({ sucess: result.affectedRows > 0 });
 });
 
-app.get('/header', async (req, res) => {
-  const [results] = await db.execute('SELECT * from header');
+app.get('/headerFooter', async (req, res) => {
+  const [results] = await db.execute('SELECT * from headerFooter');
   res.send(results);
 });
 
-app.post('/header', async (req, res) => {
-  const { smallLogoUrl = null, hasSocial = null, hasContact = null, hasAbout = null, styleType = null } = req.body;
+app.post('/headerFooter', async (req, res) => {
+  const { smallLogoUrl = null, headerElms = null, headerStyle = null, footerElms = null, footerStyle = null } = req.body;
 
   const [result] = await db.execute(
-    'INSERT INTO header (smallLogoUrl, hasSocial, hasContact, hasAbout, styleType) VALUES (?,?,?,?,?)',
-    [smallLogoUrl, hasSocial, hasContact, hasAbout, styleType, articleTextOne]
+    'INSERT INTO headerFooter (smallLogoUrl, headerElms, headerStyle, footerElms, footerStyle) VALUES (?,?,?,?,?)',
+    [smallLogoUrl, headerElms, headerStyle, footerElms, footerStyle]
   );
-  res.send({ sucess: result.affectedRows > 0 });
-});
-
-app.get('/footer', async (req, res) => {
-  const [results] = await db.execute('SELECT * from foter');
-  res.send(results);
-});
-
-app.post('/footer', async (req, res) => {
-  const { hasSocial = null, styleType = null } = req.body;
-
-  const [result] = await db.execute('INSERT INTO footer (hasSocial, tyleType) VALUES (?,?)', [hasSocial, styleType]);
   res.send({ sucess: result.affectedRows > 0 });
 });
 
