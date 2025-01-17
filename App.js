@@ -225,18 +225,16 @@ app.get('/categories', async (req, res) => {
 });
 
 app.post('/categories', async (req, res) => {
-  const { catTitle, catImgUrl = null, catSubHeader = null, catText = null } = req.body;
+  const { catTitle, catImgUrl = null, catSubHeader = null, catText = null, articles = null } = req.body;
 
   if (!catTitle) {
     return res.status(400).send('category title is required for the categories table');
   }
 
-  const [result] = await db.execute('INSERT INTO categories (catTitle, catImgUrl, catSubHeader, catText) VALUES (?,?,?,?)', [
-    catTitle,
-    catImgUrl,
-    catSubHeader,
-    catText,
-  ]);
+  const [result] = await db.execute(
+    'INSERT INTO categories (catTitle, catImgUrl, catSubHeader, catText, articles) VALUES (?,?,?,?,?)',
+    [catTitle, catImgUrl, catSubHeader, catText, articles]
+  );
   res.send({ sucess: result.affectedRows > 0 });
 });
 
