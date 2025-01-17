@@ -82,9 +82,9 @@ app.get('/homePage', async (req, res) => {
 
 app.post('/homePage', async (req, res) => {
   const {
-    siteName,
-    homePageH2 = null,
-    homePageH3 = null,
+    homeTitle,
+    homeH2 = null,
+    homeH3 = null,
     homeImgUrl = null,
     homeImgType = null,
     homeText = null,
@@ -97,16 +97,16 @@ app.post('/homePage', async (req, res) => {
     hasContactForm = null,
   } = req.body;
 
-  if (!siteName) {
-    return res.status(400).send('siteName is required for the homePage table');
+  if (!homeTitle) {
+    return res.status(400).send('homeTitle is required for the homePage table');
   }
 
   const [result] = await db.execute(
-    'INSERT INTO homePage (siteName, homePageH2, homePageH3, homeImgUrl, homeImgType, homeText, homeBtnText, homeBtnFunction, hasReviews, selectedReviews, hasCategories, selectedCategories, hasContactForm) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
+    'INSERT INTO homePage (homeTitle, homeH2, homeH3, homeImgUrl, homeImgType, homeText, homeBtnText, homeBtnFunction, hasReviews, selectedReviews, hasCategories, selectedCategories, hasContactForm) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
     [
-      siteName,
-      homePageH2,
-      homePageH3,
+      homeTitle,
+      homeH2,
+      homeH3,
       homeImgUrl,
       homeImgType,
       homeText,
