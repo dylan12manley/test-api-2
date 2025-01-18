@@ -143,10 +143,12 @@ app.post('/general', async (req, res) => {
     btn2Bg = null,
     btn1TextColor = null,
     btn2TextColor = null,
+    btn1Hover = null,
+    btn2Hover = null,
   } = req.body;
 
   const [result] = await db.execute(
-    'INSERT INTO general (mainFont, secondaryFont, bg1, bg2, bg3, textColor1, textColor2, headerBg, headerTextColor, btn1Bg, btn2Bg, btn1TextColor, btn2TextColor) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
+    'INSERT INTO general (mainFont, secondaryFont, bg1, bg2, bg3, textColor1, textColor2, headerBg, headerTextColor, btn1Bg, btn2Bg, btn1TextColor, btn2TextColor, btn1Hover, btn2Hover) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
     [
       mainFont,
       secondaryFont,
@@ -161,6 +163,8 @@ app.post('/general', async (req, res) => {
       btn2Bg,
       btn1TextColor,
       btn2TextColor,
+      btn1Hover,
+      btn2Hover,
     ]
   );
   res.send({ sucess: result.affectedRows > 0 });
