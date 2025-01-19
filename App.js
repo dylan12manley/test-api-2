@@ -257,10 +257,15 @@ app.post('/categoryArticles', async (req, res) => {
     articleTextOne = null,
     articleTextTwo = null,
     articleTextThree = null,
+    categoryId,
   } = req.body;
 
+  if (!categoryId) {
+    return res.status(400).send('category id is required because each article need to belong to a category');
+  }
+
   const [result] = await db.execute(
-    'INSERT INTO categoryArticles (articleTitle, articleStyle, articleImgUrlOne, articleImgUrlTwo, articleImgUrlThree, articleTextOne, articleTextTwo, articleTextThree) VALUES (?,?,?,?,?,?,?,?)',
+    'INSERT INTO categoryArticles (articleTitle, articleStyle, articleImgUrlOne, articleImgUrlTwo, articleImgUrlThree, articleTextOne, articleTextTwo, articleTextThree, categoryId) VALUES (?,?,?,?,?,?,?,?,?)',
     [
       articleTitle,
       articleStyle,
@@ -270,6 +275,7 @@ app.post('/categoryArticles', async (req, res) => {
       articleTextOne,
       articleTextTwo,
       articleTextThree,
+      categoryId,
     ]
   );
   res.send({ sucess: result.affectedRows > 0 });
@@ -313,6 +319,55 @@ app.post('/reviews', async (req, res) => {
   const [result] = await db.execute(
     'INSERT INTO reviews (reviewTitle, reviewScore, reviewText, reviewerName, reviewDate) VALUES (?,?,?,?,?)',
     [reviewTitle, reviewScore, reviewText, reviewerName, reviewDate]
+  );
+  res.send({ sucess: result.affectedRows > 0 });
+});
+
+app.get('/about', async (req, res) => {
+  const [results] = await db.execute('SELECT * from about');
+  res.send(results);
+});
+
+app.post('/about', async (req, res) => {
+  const {
+    aboutTitle = null,
+    aboutSubH1 = null,
+    aboutP1 = null,
+    aboutImgUrl1 = null,
+    aboutSubH2 = null,
+    aboutP2 = null,
+    aboutImgUrl2 = null,
+    aboutSubH3 = null,
+    aboutP3 = null,
+    aboutImgUrl3 = null,
+    aboutSubH4 = null,
+    aboutP4 = null,
+    aboutImgUrl4 = null,
+    aboutSubH5 = null,
+    aboutP5 = null,
+    aboutImgUrl5 = null,
+  } = req.body;
+
+  const [result] = await db.execute(
+    'INSERT INTO about (aboutTitle, aboutSubH1, aboutP1, aboutImgUrl1, aboutSubH2, aboutP2, aboutImgUrl2, aboutSubH3, aboutP3, aboutImgUrl3, aboutSubH4, aboutP4, aboutImgUrl4, aboutSubH5, aboutP5, aboutImgUrl5) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+    [
+      aboutTitle,
+      aboutSubH1,
+      aboutP1,
+      aboutImgUrl1,
+      aboutSubH2,
+      aboutP2,
+      aboutImgUrl2,
+      aboutSubH3,
+      aboutP3,
+      aboutImgUrl3,
+      aboutSubH4,
+      aboutP4,
+      aboutImgUrl4,
+      aboutSubH5,
+      aboutP5,
+      aboutImgUrl5,
+    ]
   );
   res.send({ sucess: result.affectedRows > 0 });
 });
