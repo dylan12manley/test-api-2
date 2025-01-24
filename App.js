@@ -1,14 +1,18 @@
 import express from 'express';
 import db from './config/db.js';
+import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 
+// Allows access from anywhere
+app.options('*', cors());
 // Add Access Control Allow Origin headers
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
   express.json();
@@ -223,6 +227,11 @@ app.post('/companyInfo', async (req, res) => {
   res.send({ sucess: result.affectedRows > 0 });
 });
 
+app.get('/companyInfo', async (req, res) => {
+  const [results] = await db.execute('SELECT * from companyInfo');
+  res.send(results);
+});
+
 app.get('/categories', async (req, res) => {
   const [results] = await db.execute('SELECT * from categories');
   res.send(results);
@@ -240,6 +249,27 @@ app.post('/categories', async (req, res) => {
     [catTitle, catImgUrl, catSubHeader, catText, articles]
   );
   res.send({ sucess: result.affectedRows > 0 });
+});
+
+app.delete('/categories/:id', async (req, res) => {
+  const { id } = req.params;
+  const [data] = await db.execute('DELETE FROM categories where id =?', [id]);
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
+app.patch('/categories/:id', async (req, res) => {
+  const { id } = req.params;
+  const { catTitle, catImgUrl = null, catSubHeader = null, catText = null, articles = null } = req.body;
+
+  if (!catTitle) {
+    return res.status(400).send('category title is required for the categories table');
+  }
+
+  const [data] = await db.execute(
+    'UPDATE categories SET catTitle = ?, catImgUrl = ?, catSubHeader = ?, catText = ?, articles = ? WHERE categories.id = ?',
+    [catTitle, catImgUrl, catSubHeader, catText, articles, id]
+  );
+  res.send({ sucess: data.affectedRows > 0 });
 });
 
 app.get('/categoryArticles', async (req, res) => {
@@ -281,6 +311,12 @@ app.post('/categoryArticles', async (req, res) => {
   res.send({ sucess: result.affectedRows > 0 });
 });
 
+app.delete('/categoryArticles/:id', async (req, res) => {
+  const { id } = req.params;
+  const [data] = await db.execute('DELETE FROM categoryArticles where id =?', [id]);
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
 app.get('/headerFooter', async (req, res) => {
   const [results] = await db.execute('SELECT * from headerFooter');
   res.send(results);
@@ -302,7 +338,7 @@ app.get('/reviews', async (req, res) => {
 });
 
 app.post('/reviews', async (req, res) => {
-  const { reviewTitle = null, reviewScore, reviewText = null, reviewerName = null, reviewDate } = req.body;
+  const { reviewTitle = null, reviewScore, reviewText, reviewerName = null, reviewDate } = req.body;
 
   if (!reviewScore) {
     return res.status(400).send('review score is required for the reviews table');
