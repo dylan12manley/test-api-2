@@ -313,6 +313,38 @@ app.post('/categoryArticles', async (req, res) => {
   res.send({ sucess: result.affectedRows > 0 });
 });
 
+app.patch('/categoryArticles/:id', async (req, res) => {
+  const { id } = req.params;
+  const {
+    articleTitle = null,
+    articleStyle = null,
+    articleImgUrlOne = null,
+    articleImgUrlTwo = null,
+    articleImgUrlThree = null,
+    articleTextOne = null,
+    articleTextTwo = null,
+    articleTextThree = null,
+    categoryId,
+  } = req.body;
+
+  const [data] = await db.execute(
+    'UPDATE categoryArticles SET articleTitle = ?, articleStyle = ?, articleImgUrlOne = ?, articleImgUrlTwo = ?, articleImgUrlThree = ?, articleTextOne = ?, articleTextTwo = ?, articleTextThree = ?, categoryId = ? WHERE categoryArticles.id = ?',
+    [
+      articleTitle,
+      articleStyle,
+      articleImgUrlOne,
+      articleImgUrlTwo,
+      articleImgUrlThree,
+      articleTextOne,
+      articleTextTwo,
+      articleTextThree,
+      categoryId,
+      id,
+    ]
+  );
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
 app.delete('/categoryArticles/:id', async (req, res) => {
   const { id } = req.params;
   const [data] = await db.execute('DELETE FROM categoryArticles where id =?', [id]);
