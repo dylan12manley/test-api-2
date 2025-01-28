@@ -126,6 +126,50 @@ app.post('/homePage', async (req, res) => {
   res.send({ sucess: result.affectedRows > 0 });
 });
 
+app.patch('/homePage/:id', async (req, res) => {
+  const { id } = req.params;
+  const {
+    homeTitle,
+    homeH2 = null,
+    homeH3 = null,
+    homeImgUrl = null,
+    homeImgType = null,
+    homeText = null,
+    homeBtnText = null,
+    homeBtnFunction = null,
+    hasReviews = null,
+    selectedReviews = null,
+    hasCategories = null,
+    selectedCategories = null,
+    hasContactForm = null,
+  } = req.body;
+
+  if (!homeTitle) {
+    return res.status(400).send('category title is required for the home page table');
+  }
+
+  const [data] = await db.execute(
+    'UPDATE homePage SET homeTitle = ?, homeH2 = ?, homeH3 = ?, homeImgUrl = ?, homeImgType = ?, homeText = ?, homeBtnText = ?, homeBtnFunction = ?, hasReviews = ?, selectedReviews = ?, hasCategories = ?, selectedCategories = ?, hasContactForm = ? WHERE homePage.id = ?',
+    [
+      homeTitle,
+      homeH2,
+      homeH3,
+      homeImgUrl,
+      homeImgType,
+      homeText,
+      homeBtnText,
+      homeBtnFunction,
+      hasReviews,
+      selectedReviews,
+      hasCategories,
+      selectedCategories,
+      hasContactForm,
+      id,
+    ]
+  );
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
 app.delete('/homePage/:id', async (req, res) => {
   const { id } = req.params;
   const [data] = await db.execute('DELETE FROM homePage where id =?', [id]);
@@ -391,6 +435,35 @@ app.post('/reviews', async (req, res) => {
     [reviewTitle, reviewScore, reviewText, reviewerName, reviewDate]
   );
   res.send({ sucess: result.affectedRows > 0 });
+});
+
+app.patch('/reviews/:id', async (req, res) => {
+  const { id } = req.params;
+  const { reviewTitle = null, reviewScore, reviewText, reviewerName, reviewDate = null } = req.body;
+
+  if (!reviewScore) {
+    return res.status(400).send('review score is required for the reviews table');
+  }
+
+  if (!reviewText) {
+    return res.status(400).send('review text is required for the reviews table');
+  }
+
+  if (!reviewerName) {
+    return res.status(400).send('reviewer name is required for the reviews table');
+  }
+
+  const [data] = await db.execute(
+    'UPDATE reviews SET reviewTitle = ?, reviewScore = ?, reviewText = ?, reviewerName = ?, reviewDate = ? WHERE reviews.id = ?',
+    [reviewTitle, reviewScore, reviewText, reviewerName, reviewDate, id]
+  );
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
+app.delete('/reviews/:id', async (req, res) => {
+  const { id } = req.params;
+  const [data] = await db.execute('DELETE FROM reviews where id =?', [id]);
+  res.send({ sucess: data.affectedRows > 0 });
 });
 
 app.get('/about', async (req, res) => {
