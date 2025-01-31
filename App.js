@@ -218,6 +218,51 @@ app.post('/general', async (req, res) => {
   res.send({ sucess: result.affectedRows > 0 });
 });
 
+app.patch('/general/:id', async (req, res) => {
+  const { id } = req.params;
+  const {
+    mainFont = null,
+    secondaryFont = null,
+    bg1 = null,
+    bg2 = null,
+    bg3 = null,
+    textColor1 = null,
+    textColor2 = null,
+    headerBg = null,
+    headerTextColor = null,
+    btn1Bg = null,
+    btn2Bg = null,
+    btn1TextColor = null,
+    btn2TextColor = null,
+    btn1Hover = null,
+    btn2Hover = null,
+  } = req.body;
+
+  const [data] = await db.execute(
+    'UPDATE general SET mainFont = ?, secondaryFont = ?, bg1 = ?, bg2 = ?, bg3 = ?, textColor1 = ?, textColor2 = ?, headerBg = ?, headerTextColor = ?, btn1Bg = ?, btn2Bg = ?, btn1TextColor = ?, btn2TextColor = ?, btn2TextColor = ?, btn1Hover = ?, btn2Hover = ? WHERE general.id = ?',
+    [
+      mainFont,
+      secondaryFont,
+      bg1,
+      bg2,
+      bg3,
+      textColor1,
+      textColor2,
+      headerBg,
+      headerTextColor,
+      btn1Bg,
+      btn2Bg,
+      btn1TextColor,
+      btn2TextColor,
+      btn2TextColor,
+      btn1Hover,
+      btn2Hover,
+      id,
+    ]
+  );
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
 app.get('/general', async (req, res) => {
   const [results] = await db.execute('SELECT * from general');
   res.send(results);
@@ -308,7 +353,7 @@ app.patch('/companyInfo/:id', async (req, res) => {
   }
 
   const [data] = await db.execute(
-    'UPDATE homePage SET companyName = ?, address = ?, addressLine2 = ?, city = ?, state = ?, zip = ?, phoneNumber = ?, email = ?, hours = ?, facebookUrl = ?, instagramUrl = ?, twitterUrl = ?, youtubeUrl = ?, linkedinUrl = ?, companyLogoSmallUrl = ?, companyLogoLargeUrl = ? WHERE homePage.id = ?',
+    'UPDATE companyInfo SET companyName = ?, address = ?, addressLine2 = ?, city = ?, state = ?, zip = ?, phoneNumber = ?, email = ?, hours = ?, facebookUrl = ?, instagramUrl = ?, twitterUrl = ?, youtubeUrl = ?, linkedinUrl = ?, companyLogoSmallUrl = ?, companyLogoLargeUrl = ? WHERE companyInfo.id = ?',
     [
       companyName,
       address,
