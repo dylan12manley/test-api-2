@@ -233,6 +233,7 @@ app.post('/companyInfo', async (req, res) => {
   const {
     companyName,
     address = null,
+    addressLine2 = null,
     city = null,
     state = null,
     zip = null,
@@ -244,6 +245,8 @@ app.post('/companyInfo', async (req, res) => {
     twitterUrl = null,
     youtubeUrl = null,
     linkedinUrl = null,
+    companyLogoSmallUrl = null,
+    companyLogoLargeUrl = null,
   } = req.body;
 
   if (!companyName) {
@@ -251,10 +254,11 @@ app.post('/companyInfo', async (req, res) => {
   }
 
   const [result] = await db.execute(
-    'INSERT INTO companyInfo (companyName, address, city, state, zip, phoneNumber, email, hours, facebookUrl, instagramUrl, twitterUrl, youtubeUrl, linkedinUrl) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
+    'INSERT INTO companyInfo (companyName, address, addressLine2, city, state, zip, phoneNumber, email, hours, facebookUrl, instagramUrl, twitterUrl, youtubeUrl, linkedinUrl, companyLogoSmallUrl, companyLogoLargeUrl) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
     [
       companyName,
       address,
+      addressLine2,
       city,
       state,
       zip,
@@ -266,6 +270,8 @@ app.post('/companyInfo', async (req, res) => {
       twitterUrl,
       youtubeUrl,
       linkedinUrl,
+      companyLogoSmallUrl,
+      companyLogoLargeUrl,
     ]
   );
   res.send({ sucess: result.affectedRows > 0 });
@@ -274,6 +280,62 @@ app.post('/companyInfo', async (req, res) => {
 app.get('/companyInfo', async (req, res) => {
   const [results] = await db.execute('SELECT * from companyInfo');
   res.send(results);
+});
+
+app.patch('/companyInfo/:id', async (req, res) => {
+  const { id } = req.params;
+  const {
+    companyName,
+    address = null,
+    addressLine2 = null,
+    city = null,
+    state = null,
+    zip = null,
+    phoneNumber = null,
+    email = null,
+    hours = null,
+    facebookUrl = null,
+    instagramUrl = null,
+    twitterUrl = null,
+    youtubeUrl = null,
+    linkedinUrl = null,
+    companyLogoSmallUrl = null,
+    companyLogoLargeUrl = null,
+  } = req.body;
+
+  if (!companyName) {
+    return res.status(400).send('company name is required for the companyInfo table');
+  }
+
+  const [data] = await db.execute(
+    'UPDATE homePage SET companyName = ?, address = ?, addressLine2 = ?, city = ?, state = ?, zip = ?, phoneNumber = ?, email = ?, hours = ?, facebookUrl = ?, instagramUrl = ?, twitterUrl = ?, youtubeUrl = ?, linkedinUrl = ?, companyLogoSmallUrl = ?, companyLogoLargeUrl = ? WHERE homePage.id = ?',
+    [
+      companyName,
+      address,
+      addressLine2,
+      city,
+      state,
+      zip,
+      phoneNumber,
+      email,
+      hours,
+      facebookUrl,
+      instagramUrl,
+      twitterUrl,
+      youtubeUrl,
+      linkedinUrl,
+      companyLogoSmallUrl,
+      companyLogoLargeUrl,
+      id,
+    ]
+  );
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
+app.delete('/companyInfo/:id', async (req, res) => {
+  const { id } = req.params;
+  const [data] = await db.execute('DELETE FROM companyInfo where id =?', [id]);
+  res.send({ sucess: data.affectedRows > 0 });
 });
 
 app.get('/categories', async (req, res) => {
@@ -410,6 +472,17 @@ app.post('/headerFooter', async (req, res) => {
   res.send({ sucess: result.affectedRows > 0 });
 });
 
+app.patch('/headerFooter/:id', async (req, res) => {
+  const { id } = req.params;
+  const { smallLogoUrl = null, headerElms = null, headerStyle = null, footerElms = null, footerStyle = null } = req.body;
+
+  const [result] = await db.execute(
+    'Update headerFooter SET smallLogoUrl = ?, headerElms = ?, headerStyle = ?, footerElms = ?, footerStyle = ? WHERE headerFooter.id = ?',
+    [smallLogoUrl, headerElms, headerStyle, footerElms, footerStyle, id]
+  );
+  res.send({ sucess: result.affectedRows > 0 });
+});
+
 app.get('/reviews', async (req, res) => {
   const [results] = await db.execute('SELECT * from reviews');
   res.send(results);
@@ -513,4 +586,110 @@ app.post('/about', async (req, res) => {
     ]
   );
   res.send({ sucess: result.affectedRows > 0 });
+});
+
+app.patch('/about/:id', async (req, res) => {
+  const { id } = req.params;
+  const {
+    aboutTitle = null,
+    aboutSubH1 = null,
+    aboutP1 = null,
+    aboutImgUrl1 = null,
+    aboutSubH2 = null,
+    aboutP2 = null,
+    aboutImgUrl2 = null,
+    aboutSubH3 = null,
+    aboutP3 = null,
+    aboutImgUrl3 = null,
+    aboutSubH4 = null,
+    aboutP4 = null,
+    aboutImgUrl4 = null,
+    aboutSubH5 = null,
+    aboutP5 = null,
+    aboutImgUrl5 = null,
+  } = req.body;
+
+  const [data] = await db.execute(
+    'UPDATE about SET aboutTitle = ?, aboutSubH1 = ?, aboutP1 = ?, aboutImgUrl1 = ?, aboutSubH2 = ?, aboutP2 = ?, aboutImgUrl2 = ?, aboutSubH3 = ?, aboutP3 = ?, aboutImgUrl3 = ?, aboutSubH4 = ?, aboutP4 = ?, aboutImgUrl4 = ?, aboutSubH5 = ?, aboutP5 = ?, aboutImgUrl5 = ? WHERE about.id = ?',
+    [
+      aboutTitle,
+      aboutSubH1,
+      aboutP1,
+      aboutImgUrl1,
+      aboutSubH2,
+      aboutP2,
+      aboutImgUrl2,
+      aboutSubH3,
+      aboutP3,
+      aboutImgUrl3,
+      aboutSubH4,
+      aboutP4,
+      aboutImgUrl4,
+      aboutSubH5,
+      aboutP5,
+      aboutImgUrl5,
+      id,
+    ]
+  );
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
+app.delete('/about/:id', async (req, res) => {
+  const { id } = req.params;
+  const [data] = await db.execute('DELETE FROM about where id =?', [id]);
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
+app.get('/aboutArticles', async (req, res) => {
+  const [results] = await db.execute('SELECT * from aboutArticles');
+  res.send(results);
+});
+
+app.post('/aboutArticles', async (req, res) => {
+  const {
+    aArtTitle = null,
+    aArtP1 = null,
+    aArtImgUrl1 = null,
+    aArtP2 = null,
+    aArtImgUrl2 = null,
+    aArtP3 = null,
+    aArtImgUrl3 = null,
+    aArtP4 = null,
+    aArtImgUrl4 = null,
+    aArtStyle = null,
+  } = req.body;
+
+  const [result] = await db.execute(
+    'INSERT INTO about (aArtTitle, aArtP1, aArtImgUrl1, aArtP2, aArtImgUrl2, aArtP3, aArtImgUrl3, aArtP4, aArtImgUrl4, aArtStyle) VALUES (?,?,?,?,?,?,?,?,?,?)',
+    [aArtTitle, aArtP1, aArtImgUrl1, aArtP2, aArtImgUrl2, aArtP3, aArtImgUrl3, aArtP4, aArtImgUrl4, aArtStyle]
+  );
+  res.send({ sucess: result.affectedRows > 0 });
+});
+
+app.patch('/aboutArticles/:id', async (req, res) => {
+  const { id } = req.params;
+  const {
+    aArtTitle = null,
+    aArtP1 = null,
+    aArtImgUrl1 = null,
+    aArtP2 = null,
+    aArtImgUrl2 = null,
+    aArtP3 = null,
+    aArtImgUrl3 = null,
+    aArtP4 = null,
+    aArtImgUrl4 = null,
+    aArtStyle = null,
+  } = req.body;
+
+  const [data] = await db.execute(
+    'UPDATE aboutArticles SET aArtTitle = ?, aArtP1 = ?, aArtImgUrl1 = ?, aArtP2 = ?, aArtImgUrl2 = ?, aArtP3 = ?, aArtImgUrl3 = ?, aArtP4 = ?, aboutImgUrl4 = ?, aArtStyle = ? WHERE about.id = ?',
+    [aArtTitle, aArtP1, aArtImgUrl1, aArtP2, aArtImgUrl2, aboutSubH3, aArtP3, aArtImgUrl3, aArtP4, aArtImgUrl4, aArtStyle, id]
+  );
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
+app.delete('/aboutArticles/:id', async (req, res) => {
+  const { id } = req.params;
+  const [data] = await db.execute('DELETE FROM aboutArticles where id =?', [id]);
+  res.send({ sucess: data.affectedRows > 0 });
 });
