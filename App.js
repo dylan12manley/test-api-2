@@ -285,6 +285,7 @@ app.post('/companyInfo', async (req, res) => {
     phoneNumber = null,
     email = null,
     hours = null,
+    license = null,
     facebookUrl = null,
     instagramUrl = null,
     twitterUrl = null,
@@ -299,7 +300,7 @@ app.post('/companyInfo', async (req, res) => {
   }
 
   const [result] = await db.execute(
-    'INSERT INTO companyInfo (companyName, address, addressLine2, city, state, zip, phoneNumber, email, hours, facebookUrl, instagramUrl, twitterUrl, youtubeUrl, linkedinUrl, companyLogoSmallUrl, companyLogoLargeUrl) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+    'INSERT INTO companyInfo (companyName, address, addressLine2, city, state, zip, phoneNumber, email, hours, license, facebookUrl, instagramUrl, twitterUrl, youtubeUrl, linkedinUrl, companyLogoSmallUrl, companyLogoLargeUrl) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
     [
       companyName,
       address,
@@ -310,6 +311,7 @@ app.post('/companyInfo', async (req, res) => {
       phoneNumber,
       email,
       hours,
+      license,
       facebookUrl,
       instagramUrl,
       twitterUrl,
@@ -339,6 +341,7 @@ app.patch('/companyInfo/:id', async (req, res) => {
     phoneNumber = null,
     email = null,
     hours = null,
+    license = null,
     facebookUrl = null,
     instagramUrl = null,
     twitterUrl = null,
@@ -353,7 +356,7 @@ app.patch('/companyInfo/:id', async (req, res) => {
   }
 
   const [data] = await db.execute(
-    'UPDATE companyInfo SET companyName = ?, address = ?, addressLine2 = ?, city = ?, state = ?, zip = ?, phoneNumber = ?, email = ?, hours = ?, facebookUrl = ?, instagramUrl = ?, twitterUrl = ?, youtubeUrl = ?, linkedinUrl = ?, companyLogoSmallUrl = ?, companyLogoLargeUrl = ? WHERE companyInfo.id = ?',
+    'UPDATE companyInfo SET companyName = ?, address = ?, addressLine2 = ?, city = ?, state = ?, zip = ?, phoneNumber = ?, email = ?, hours = ?, license = ?, facebookUrl = ?, instagramUrl = ?, twitterUrl = ?, youtubeUrl = ?, linkedinUrl = ?, companyLogoSmallUrl = ?, companyLogoLargeUrl = ? WHERE companyInfo.id = ?',
     [
       companyName,
       address,
@@ -364,6 +367,7 @@ app.patch('/companyInfo/:id', async (req, res) => {
       phoneNumber,
       email,
       hours,
+      license,
       facebookUrl,
       instagramUrl,
       twitterUrl,
