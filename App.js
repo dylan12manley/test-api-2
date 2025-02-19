@@ -742,3 +742,38 @@ app.delete('/aboutArticles/:id', async (req, res) => {
   const [data] = await db.execute('DELETE FROM aboutArticles where id =?', [id]);
   res.send({ sucess: data.affectedRows > 0 });
 });
+
+app.get('/contact', async (req, res) => {
+  const [results] = await db.execute('SELECT * from contact');
+  res.send(results);
+});
+
+app.post('/contact', async (req, res) => {
+  const { contactTitle = null, hasAddress = null, hasMap = null } = req.body;
+
+  const [result] = await db.execute('INSERT INTO contact (contactTitle, hasAddress, hasMap) VALUES (?,?,?)', [
+    contactTitle,
+    hasAddress,
+    hasMap,
+  ]);
+  res.send({ sucess: result.affectedRows > 0 });
+});
+
+app.patch('/contact/:id', async (req, res) => {
+  const { id } = req.params;
+  const { contactTitle = null, hasAddress = null, hasMap = null } = req.body;
+
+  const [data] = await db.execute('UPDATE contact SET contactTitle = ?, hasAddress = ?, hasMap = ? WHERE contact.id = ?', [
+    contactTitle,
+    hasAddress,
+    hasMap,
+    id,
+  ]);
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
+app.delete('/contact/:id', async (req, res) => {
+  const { id } = req.params;
+  const [data] = await db.execute('DELETE FROM contact where id =?', [id]);
+  res.send({ sucess: data.affectedRows > 0 });
+});
