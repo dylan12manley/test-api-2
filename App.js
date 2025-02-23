@@ -594,91 +594,22 @@ app.get('/about', async (req, res) => {
 });
 
 app.post('/about', async (req, res) => {
-  const {
-    aboutTitle = null,
-    aboutSubH1 = null,
-    aboutP1 = null,
-    aboutImgUrl1 = null,
-    aboutSubH2 = null,
-    aboutP2 = null,
-    aboutImgUrl2 = null,
-    aboutSubH3 = null,
-    aboutP3 = null,
-    aboutImgUrl3 = null,
-    aboutSubH4 = null,
-    aboutP4 = null,
-    aboutImgUrl4 = null,
-    aboutSubH5 = null,
-    aboutP5 = null,
-    aboutImgUrl5 = null,
-  } = req.body;
+  const { aboutTitle = null, aboutH2 = null, aboutP = null, aboutImgUrl = null, aboutStyle = null } = req.body;
 
   const [result] = await db.execute(
-    'INSERT INTO about (aboutTitle, aboutSubH1, aboutP1, aboutImgUrl1, aboutSubH2, aboutP2, aboutImgUrl2, aboutSubH3, aboutP3, aboutImgUrl3, aboutSubH4, aboutP4, aboutImgUrl4, aboutSubH5, aboutP5, aboutImgUrl5) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-    [
-      aboutTitle,
-      aboutSubH1,
-      aboutP1,
-      aboutImgUrl1,
-      aboutSubH2,
-      aboutP2,
-      aboutImgUrl2,
-      aboutSubH3,
-      aboutP3,
-      aboutImgUrl3,
-      aboutSubH4,
-      aboutP4,
-      aboutImgUrl4,
-      aboutSubH5,
-      aboutP5,
-      aboutImgUrl5,
-    ]
+    'INSERT INTO about (aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutStyle) VALUES (?,?,?,?,?)',
+    [aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutStyle]
   );
   res.send({ sucess: result.affectedRows > 0 });
 });
 
 app.patch('/about/:id', async (req, res) => {
   const { id } = req.params;
-  const {
-    aboutTitle = null,
-    aboutSubH1 = null,
-    aboutP1 = null,
-    aboutImgUrl1 = null,
-    aboutSubH2 = null,
-    aboutP2 = null,
-    aboutImgUrl2 = null,
-    aboutSubH3 = null,
-    aboutP3 = null,
-    aboutImgUrl3 = null,
-    aboutSubH4 = null,
-    aboutP4 = null,
-    aboutImgUrl4 = null,
-    aboutSubH5 = null,
-    aboutP5 = null,
-    aboutImgUrl5 = null,
-  } = req.body;
+  const { aboutTitle = null, aboutH2 = null, aboutP = null, aboutImgUrl = null, aboutStyle = null } = req.body;
 
   const [data] = await db.execute(
-    'UPDATE about SET aboutTitle = ?, aboutSubH1 = ?, aboutP1 = ?, aboutImgUrl1 = ?, aboutSubH2 = ?, aboutP2 = ?, aboutImgUrl2 = ?, aboutSubH3 = ?, aboutP3 = ?, aboutImgUrl3 = ?, aboutSubH4 = ?, aboutP4 = ?, aboutImgUrl4 = ?, aboutSubH5 = ?, aboutP5 = ?, aboutImgUrl5 = ? WHERE about.id = ?',
-    [
-      aboutTitle,
-      aboutSubH1,
-      aboutP1,
-      aboutImgUrl1,
-      aboutSubH2,
-      aboutP2,
-      aboutImgUrl2,
-      aboutSubH3,
-      aboutP3,
-      aboutImgUrl3,
-      aboutSubH4,
-      aboutP4,
-      aboutImgUrl4,
-      aboutSubH5,
-      aboutP5,
-      aboutImgUrl5,
-      id,
-    ]
+    'UPDATE about SET aboutTitle = ?, aboutH2 = ?, aboutP = ?, aboutImgUrl = ?, aboutStyle = ? WHERE about.id = ?',
+    [aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutStyle, id]
   );
   res.send({ sucess: data.affectedRows > 0 });
 });
@@ -706,11 +637,12 @@ app.post('/aboutArticles', async (req, res) => {
     aArtP4 = null,
     aArtImgUrl4 = null,
     aArtStyle = null,
+    aboutId,
   } = req.body;
 
   const [result] = await db.execute(
-    'INSERT INTO about (aArtTitle, aArtP1, aArtImgUrl1, aArtP2, aArtImgUrl2, aArtP3, aArtImgUrl3, aArtP4, aArtImgUrl4, aArtStyle) VALUES (?,?,?,?,?,?,?,?,?,?)',
-    [aArtTitle, aArtP1, aArtImgUrl1, aArtP2, aArtImgUrl2, aArtP3, aArtImgUrl3, aArtP4, aArtImgUrl4, aArtStyle]
+    'INSERT INTO aboutArticles (aArtTitle, aArtP1, aArtImgUrl1, aArtP2, aArtImgUrl2, aArtP3, aArtImgUrl3, aArtP4, aArtImgUrl4, aArtStyle, aboutId) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+    [aArtTitle, aArtP1, aArtImgUrl1, aArtP2, aArtImgUrl2, aArtP3, aArtImgUrl3, aArtP4, aArtImgUrl4, aArtStyle, aboutId]
   );
   res.send({ sucess: result.affectedRows > 0 });
 });
@@ -728,11 +660,26 @@ app.patch('/aboutArticles/:id', async (req, res) => {
     aArtP4 = null,
     aArtImgUrl4 = null,
     aArtStyle = null,
+    aboutId,
   } = req.body;
 
   const [data] = await db.execute(
-    'UPDATE aboutArticles SET aArtTitle = ?, aArtP1 = ?, aArtImgUrl1 = ?, aArtP2 = ?, aArtImgUrl2 = ?, aArtP3 = ?, aArtImgUrl3 = ?, aArtP4 = ?, aboutImgUrl4 = ?, aArtStyle = ? WHERE about.id = ?',
-    [aArtTitle, aArtP1, aArtImgUrl1, aArtP2, aArtImgUrl2, aboutSubH3, aArtP3, aArtImgUrl3, aArtP4, aArtImgUrl4, aArtStyle, id]
+    'UPDATE aboutArticles SET aArtTitle = ?, aArtP1 = ?, aArtImgUrl1 = ?, aArtP2 = ?, aArtImgUrl2 = ?, aArtP3 = ?, aArtImgUrl3 = ?, aArtP4 = ?, aboutImgUrl4 = ?, aArtStyle = ?, aboutId = ? WHERE aboutArticles.id = ?',
+    [
+      aArtTitle,
+      aArtP1,
+      aArtImgUrl1,
+      aArtP2,
+      aArtImgUrl2,
+      aboutSubH3,
+      aArtP3,
+      aArtImgUrl3,
+      aArtP4,
+      aArtImgUrl4,
+      aArtStyle,
+      aboutId,
+      id,
+    ]
   );
   res.send({ sucess: data.affectedRows > 0 });
 });
