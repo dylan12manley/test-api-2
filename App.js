@@ -452,6 +452,8 @@ app.post('/categoryArticles', async (req, res) => {
     articleImg6Text = null,
     articleVideo1 = null,
     articleVideo2 = null,
+    articleVideo1Thumb = null,
+    articleVideo2Thumb = null,
     articleText1 = null,
     articleText2 = null,
     articleText3 = null,
@@ -465,7 +467,7 @@ app.post('/categoryArticles', async (req, res) => {
   }
 
   const [result] = await db.execute(
-    'INSERT INTO categoryArticles (articleTitle, articleStyle, articleImgUrl1, articleImgUrl2, articleImgUrl3, articleImgUrl4, articleImgUrl5, articleImgUrl6, articleImg1Text, articleImg2Text, articleImg3Text, articleImg4Text, articleImg5Text, articleImg6Text, articleVideo1, articleVideo2, articleText1, articleText2, articleText3, articleText4, articleText5, categoryId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+    'INSERT INTO categoryArticles (articleTitle, articleStyle, articleImgUrl1, articleImgUrl2, articleImgUrl3, articleImgUrl4, articleImgUrl5, articleImgUrl6, articleImg1Text, articleImg2Text, articleImg3Text, articleImg4Text, articleImg5Text, articleImg6Text, articleVideo1, articleVideo2, articleVideo1Thumb, articleVideo2Thumb, articleText1, articleText2, articleText3, articleText4, articleText5, categoryId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
     [
       articleTitle,
       articleStyle,
@@ -483,6 +485,8 @@ app.post('/categoryArticles', async (req, res) => {
       articleImg6Text,
       articleVideo1,
       articleVideo2,
+      articleVideo1Thumb,
+      articleVideo2Thumb,
       articleText1,
       articleText2,
       articleText3,
@@ -513,6 +517,8 @@ app.patch('/categoryArticles/:id', async (req, res) => {
     articleImg6Text = null,
     articleVideo1 = null,
     articleVideo2 = null,
+    articleVideo1Thumb = null,
+    articleVideo2Thumb = null,
     articleText1 = null,
     articleText2 = null,
     articleText3 = null,
@@ -522,7 +528,7 @@ app.patch('/categoryArticles/:id', async (req, res) => {
   } = req.body;
 
   const [data] = await db.execute(
-    'UPDATE categoryArticles SET articleTitle = ?, articleStyle = ?, articleImgUrl1 = ?, articleImgUrl2 = ?, articleImgUrl3 = ?, articleImgUrl4 = ?, articleImgUrl5 = ?, articleImgUrl6 = ?, articleImg1Text = ?, articleImg2Text = ?, articleImg3Text = ?, articleImg4Text = ?, articleImg5Text = ?, articleImg6Text = ?, articleVideo1 = ?, articleVideo2 = ?, articleText1 = ?, articleText2 = ?, articleText3 = ?, categoryId = ? WHERE categoryArticles.id = ?',
+    'UPDATE categoryArticles SET articleTitle = ?, articleStyle = ?, articleImgUrl1 = ?, articleImgUrl2 = ?, articleImgUrl3 = ?, articleImgUrl4 = ?, articleImgUrl5 = ?, articleImgUrl6 = ?, articleImg1Text = ?, articleImg2Text = ?, articleImg3Text = ?, articleImg4Text = ?, articleImg5Text = ?, articleImg6Text = ?, articleVideo1 = ?, articleVideo2 = ?, articleVideo1Thumb = ?, articleVideo2Thumb = ?, articleText1 = ?, articleText2 = ?, articleText3 = ?, articleText4 = ?, articleText5 = ?, categoryId = ? WHERE categoryArticles.id = ?',
     [
       articleTitle,
       articleStyle,
@@ -540,6 +546,8 @@ app.patch('/categoryArticles/:id', async (req, res) => {
       articleImg6Text,
       articleVideo1,
       articleVideo2,
+      articleVideo1Thumb,
+      articleVideo2Thumb,
       articleText1,
       articleText2,
       articleText3,
