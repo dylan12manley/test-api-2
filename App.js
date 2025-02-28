@@ -654,22 +654,36 @@ app.get('/about', async (req, res) => {
 });
 
 app.post('/about', async (req, res) => {
-  const { aboutTitle = null, aboutH2 = null, aboutP = null, aboutImgUrl = null, aboutStyle = null } = req.body;
+  const {
+    aboutTitle = null,
+    aboutH2 = null,
+    aboutP = null,
+    aboutImgUrl = null,
+    aboutImgText = null,
+    aboutStyle = null,
+  } = req.body;
 
   const [result] = await db.execute(
-    'INSERT INTO about (aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutStyle) VALUES (?,?,?,?,?)',
-    [aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutStyle]
+    'INSERT INTO about (aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutImgText, aboutStyle) VALUES (?,?,?,?,?,?)',
+    [aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutImgText, aboutStyle]
   );
   res.send({ sucess: result.affectedRows > 0 });
 });
 
 app.patch('/about/:id', async (req, res) => {
   const { id } = req.params;
-  const { aboutTitle = null, aboutH2 = null, aboutP = null, aboutImgUrl = null, aboutStyle = null } = req.body;
+  const {
+    aboutTitle = null,
+    aboutH2 = null,
+    aboutP = null,
+    aboutImgUrl = null,
+    aboutImgText = null,
+    aboutStyle = null,
+  } = req.body;
 
   const [data] = await db.execute(
-    'UPDATE about SET aboutTitle = ?, aboutH2 = ?, aboutP = ?, aboutImgUrl = ?, aboutStyle = ? WHERE about.id = ?',
-    [aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutStyle, id]
+    'UPDATE about SET aboutTitle = ?, aboutH2 = ?, aboutP = ?, aboutImgUrl = ?, aboutImgText = ?, aboutStyle = ? WHERE about.id = ?',
+    [aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutStyle, aboutImgText, id]
   );
   res.send({ sucess: data.affectedRows > 0 });
 });
