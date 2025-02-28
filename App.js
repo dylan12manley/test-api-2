@@ -683,7 +683,7 @@ app.patch('/about/:id', async (req, res) => {
 
   const [data] = await db.execute(
     'UPDATE about SET aboutTitle = ?, aboutH2 = ?, aboutP = ?, aboutImgUrl = ?, aboutImgText = ?, aboutStyle = ? WHERE about.id = ?',
-    [aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutStyle, aboutImgText, id]
+    [aboutTitle, aboutH2, aboutP, aboutImgUrl, aboutImgText, aboutStyle, id]
   );
   res.send({ sucess: data.affectedRows > 0 });
 });
