@@ -821,26 +821,23 @@ app.get('/contact', async (req, res) => {
 });
 
 app.post('/contact', async (req, res) => {
-  const { contactTitle = null, hasAddress = null, hasMap = null } = req.body;
+  const { contactTitle = null, hasAddress = null, hasMap = null, hasPhone = null, hasEmail = null, hasHours = null } = req.body;
 
-  const [result] = await db.execute('INSERT INTO contact (contactTitle, hasAddress, hasMap) VALUES (?,?,?)', [
-    contactTitle,
-    hasAddress,
-    hasMap,
-  ]);
+  const [result] = await db.execute(
+    'INSERT INTO contact (contactTitle, hasAddress, hasMap, hasPhone, hasEmail) VALUES (?,?,?,?,?,?)',
+    [contactTitle, hasAddress, hasMap, hasPhone, hasEmail, hasHours]
+  );
   res.send({ sucess: result.affectedRows > 0 });
 });
 
 app.patch('/contact/:id', async (req, res) => {
   const { id } = req.params;
-  const { contactTitle = null, hasAddress = null, hasMap = null } = req.body;
+  const { contactTitle = null, hasAddress = null, hasMap = null, hasPhone = null, hasEmail = null, hasHours = null } = req.body;
 
-  const [data] = await db.execute('UPDATE contact SET contactTitle = ?, hasAddress = ?, hasMap = ? WHERE contact.id = ?', [
-    contactTitle,
-    hasAddress,
-    hasMap,
-    id,
-  ]);
+  const [data] = await db.execute(
+    'UPDATE contact SET contactTitle = ?, hasAddress = ?, hasMap = ?, hasPhone = ?, hasEmail = ?, hasHours = ? WHERE contact.id = ?',
+    [contactTitle, hasAddress, hasMap, hasPhone, hasEmail, hasHours, id]
+  );
   res.send({ sucess: data.affectedRows > 0 });
 });
 
