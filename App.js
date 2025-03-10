@@ -393,18 +393,20 @@ app.get('/categories', async (req, res) => {
 });
 
 app.post('/categories', async (req, res) => {
-  const { catTitle, catImgUrl = null, catSubHeader = null, catText = null } = req.body;
+  const { catStyle, catTitle, catImgUrl = null, catSubHeader = null, catText = null } = req.body;
 
   if (!catTitle) {
     return res.status(400).send('category title is required for the categories table');
   }
 
-  const [result] = await db.execute('INSERT INTO categories (catTitle, catImgUrl, catSubHeader, catText) VALUES (?,?,?,?)', [
-    catTitle,
-    catImgUrl,
-    catSubHeader,
-    catText,
-  ]);
+  if (!catStyle) {
+    return res.status(400).send('category style is required for the categories table');
+  }
+
+  const [result] = await db.execute(
+    'INSERT INTO categories (catStyle, catTitle, catImgUrl, catSubHeader, catText) VALUES (?,?,?,?,?)',
+    [catStyle, catTitle, catImgUrl, catSubHeader, catText]
+  );
   res.send({ sucess: result.affectedRows > 0 });
 });
 
@@ -416,15 +418,15 @@ app.delete('/categories/:id', async (req, res) => {
 
 app.patch('/categories/:id', async (req, res) => {
   const { id } = req.params;
-  const { catTitle, catImgUrl = null, catSubHeader = null, catText = null } = req.body;
+  const { catStyle, catTitle, catImgUrl = null, catSubHeader = null, catText = null } = req.body;
 
   if (!catTitle) {
     return res.status(400).send('category title is required for the categories table');
   }
 
   const [data] = await db.execute(
-    'UPDATE categories SET catTitle = ?, catImgUrl = ?, catSubHeader = ?, catText = ? WHERE categories.id = ?',
-    [catTitle, catImgUrl, catSubHeader, catText, id]
+    'UPDATE categories SET catStyle = ?, catTitle = ?, catImgUrl = ?, catSubHeader = ?, catText = ? WHERE categories.id = ?',
+    [catStyle, catTitle, catImgUrl, catSubHeader, catText, id]
   );
   res.send({ sucess: data.affectedRows > 0 });
 });
