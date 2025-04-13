@@ -96,7 +96,7 @@ app.post('/homePage', async (req, res) => {
     homeBtnFunction = null,
     hasReviews = null,
     selectedReviews = null,
-    hasCategories = null,
+    categoriesType = null,
     selectedCategories = null,
     hasContactForm = null,
   } = req.body;
@@ -106,7 +106,7 @@ app.post('/homePage', async (req, res) => {
   }
 
   const [result] = await db.execute(
-    'INSERT INTO homePage (homeTitle, homeH2, homeH3, homeImgUrl, homeImgType, homeText, homeBtnText, homeBtnFunction, hasReviews, selectedReviews, hasCategories, selectedCategories, hasContactForm) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
+    'INSERT INTO homePage (homeTitle, homeH2, homeH3, homeImgUrl, homeImgType, homeText, homeBtnText, homeBtnFunction, hasReviews, selectedReviews, categoriesType, selectedCategories, hasContactForm) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
     [
       homeTitle,
       homeH2,
@@ -118,7 +118,7 @@ app.post('/homePage', async (req, res) => {
       homeBtnFunction,
       hasReviews,
       selectedReviews,
-      hasCategories,
+      categoriesType,
       selectedCategories,
       hasContactForm,
     ]
@@ -139,7 +139,7 @@ app.patch('/homePage/:id', async (req, res) => {
     homeBtnFunction = null,
     hasReviews = null,
     selectedReviews = null,
-    hasCategories = null,
+    categoriesType = null,
     selectedCategories = null,
     hasContactForm = null,
   } = req.body;
@@ -149,7 +149,7 @@ app.patch('/homePage/:id', async (req, res) => {
   }
 
   const [data] = await db.execute(
-    'UPDATE homePage SET homeTitle = ?, homeH2 = ?, homeH3 = ?, homeImgUrl = ?, homeImgType = ?, homeText = ?, homeBtnText = ?, homeBtnFunction = ?, hasReviews = ?, selectedReviews = ?, hasCategories = ?, selectedCategories = ?, hasContactForm = ? WHERE homePage.id = ?',
+    'UPDATE homePage SET homeTitle = ?, homeH2 = ?, homeH3 = ?, homeImgUrl = ?, homeImgType = ?, homeText = ?, homeBtnText = ?, homeBtnFunction = ?, hasReviews = ?, selectedReviews = ?, categoriesType = ?, selectedCategories = ?, hasContactForm = ? WHERE homePage.id = ?',
     [
       homeTitle,
       homeH2,
@@ -161,7 +161,7 @@ app.patch('/homePage/:id', async (req, res) => {
       homeBtnFunction,
       hasReviews,
       selectedReviews,
-      hasCategories,
+      categoriesType,
       selectedCategories,
       hasContactForm,
       id,
